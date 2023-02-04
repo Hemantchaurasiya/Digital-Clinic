@@ -1,11 +1,5 @@
 package com.digitalclinic.Digital.Clinic.dtos;
 
-import com.digitalclinic.Digital.Clinic.entities.Address;
-import com.digitalclinic.Digital.Clinic.entities.Doctor;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +15,7 @@ public class ClinicDto {
     private Integer id;
     private String name;
     private AddressDto address;
+    private String openingTime;
+    private String closingTime;
     private List<DoctorDto> doctors;
 }

@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "patients")
 @NoArgsConstructor
@@ -21,4 +24,7 @@ public class Patient extends User{
     private float height;
     private float weight;
     private String bloodGroup;
+
+    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
+    private List<Medicine> medicines = new ArrayList<>();
 }

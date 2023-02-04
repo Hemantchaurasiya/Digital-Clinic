@@ -55,6 +55,12 @@ public class ClinicServiceImpl implements ClinicService {
         if (clinicDto.getName()!=null){
             clinic.setName(clinicDto.getName());
         }
+        if (clinicDto.getOpeningTime()!=null){
+            clinic.setOpeningTime(clinicDto.getOpeningTime());
+        }
+        if (clinicDto.getClosingTime()!=null){
+            clinic.setClosingTime(clinicDto.getClosingTime());
+        }
         if (clinic.getAddress()==null){
             Address address = new Address();
             address.setPlace(clinicDto.getAddress().getPlace());

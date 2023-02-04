@@ -24,6 +24,9 @@ public class Clinic {
     @JoinColumn(name = "address_id",referencedColumnName = "id")
     private Address address;
 
+    private String openingTime;
+    private String closingTime;
+
     @ManyToMany
     @JoinTable(
             name = "clinic_doctors",
