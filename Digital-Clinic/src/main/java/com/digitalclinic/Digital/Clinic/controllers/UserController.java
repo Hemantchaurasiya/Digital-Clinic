@@ -18,6 +18,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,10 +42,19 @@ public class UserController {
 
     @Autowired
     private ModelMapper modelMapper;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto){
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto){
         System.out.println(userDto);
+        
+        if(userService.existsByEmail(userDto.getEmail())){
+            return new ResponseEntity<String>("Email is already taken!", HttpStatus.BAD_REQUEST);
+        }
+        
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         UserDto savedUser = userService.saveUser(userDto);
         System.out.println(savedUser);
         return new ResponseEntity<UserDto>(savedUser,HttpStatus.CREATED);
@@ -62,7 +72,12 @@ public class UserController {
         JwtAuthResponse response = new JwtAuthResponse();
         response.setToken(token);
         System.out.println(response);
-        response.setUser(modelMapper.map((User)userDetails,UserDto.class));
+        
+       
+        
+        //response.setUser(modelMapper.map((User)userDetails,UserDto.class));
+        // userDetails -->> org.springframework.security.core.userdetails.User [Username=hk@gmail.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, credentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[DOCTOR]]
+        
         return new ResponseEntity<JwtAuthResponse>(response, HttpStatus.OK);
     }
 

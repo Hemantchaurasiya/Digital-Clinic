@@ -5,6 +5,9 @@ import com.digitalclinic.Digital.Clinic.entities.User;
 import com.digitalclinic.Digital.Clinic.exceptions.UserNotFoundException;
 import com.digitalclinic.Digital.Clinic.repositories.UserRepository;
 import com.digitalclinic.Digital.Clinic.services.UserService;
+
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,4 +34,10 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+	@Override
+	public boolean existsByEmail(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		return user.isPresent();
+	}
 }
